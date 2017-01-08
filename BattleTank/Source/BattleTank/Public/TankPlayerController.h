@@ -33,5 +33,13 @@ private:
 	UPROPERTY(EditAnywhere)
 	float CrossHairYLocation = 0.33333f;//distance down screen
 
+	// Get the Vector in the world hit by the player's line trace pointing at the crosshair
+	bool GetLookVectorHitLocation(FVector LookDirection, FVector& HitLocation) const;
+
+	// Get the vector of the direction where the crosshair is looking aiming in the world
 	bool GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const;
+
+	UPROPERTY(EditAnywhere)
+	float LineTraceRange = 1000000;//10km
+
 };
