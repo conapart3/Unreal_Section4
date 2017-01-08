@@ -45,7 +45,7 @@ void ATankPlayerController::AimTowardsCrosshair(float DeltaTime)
 
 	if (GetSightRayHitLocation(HitLocation))// has a side effect, it is going to line trace
 	{
-		//GetControlledTank()->AimAt(HitLocation);
+		GetControlledTank()->AimAt(HitLocation);
 	}
 }
 
