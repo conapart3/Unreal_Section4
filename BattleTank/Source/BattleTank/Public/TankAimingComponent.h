@@ -24,7 +24,7 @@ public:
 	virtual void TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction ) override;
 
 	// Tell the tank to start aiming at a world space FVector
-	void AimAt(FVector HitLocation);
+	void AimAt(FVector HitLocation, float LaunchSpeed);
 	
 private:
 	UStaticMeshComponent* Barrel = nullptr;
