@@ -48,21 +48,41 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
 	// GetSafeNormal just returns this vector as a unit vector
 	FCollisionResponseParams ResponseParam;
+	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity
+	(
+		this,
+		OutLaunchVelocity,
+		StartLocation,
+		HitLocation,
+		LaunchSpeed,
+		ESuggestProjVelocityTraceOption::DoNotTrace
+	);
 
-	if (UGameplayStatics::SuggestProjectileVelocity(
-			this,
-			OutLaunchVelocity,
-			StartLocation,
-			HitLocation,
-			LaunchSpeed,
-			false,//we won't choose the high arc
-			0.0f,//just set collisionradius as 0
-			0.0f,//we wont override gravity
-			ESuggestProjVelocityTraceOption::DoNotTrace))
+	if (bHaveAimSolution)
 	{
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
 		auto TankName = GetOwner()->GetName();
 		UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s"), *TankName, *AimDirection.ToString());
+
+		MoveBarrelTowards(AimDirection);
 	}
+
+
 }
 
+void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
+{
+	// Move the Barrel.
+		// Get the Turret and Barrel current location
+		// Get the aim direction
+		// Rotate the turret around the centre on a horizontal basis, to point to the location the crosshair is at
+		// do this with a delta time 
+
+	// work out difference between current barrel rotation and AimDirection
+	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
+	auto AimAsRotator = AimDirection.Rotation();
+	auto DeltaRotator = AimAsRotator - BarrelRotator;
+	UE_LOG(LogTemp, Warning, TEXT("DeltaRotator = %s"), *DeltaRotator.ToString());
+	// Move the barrel the right amount this frame
+	// Given a max elevation speed and teh frame time
+}
