@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "BattleTank.h"
+#include "TankBarrel.h"
 #include "TankAimingComponent.h"
 
 
@@ -15,7 +16,7 @@ UTankAimingComponent::UTankAimingComponent()
 }
 
 
-void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent* BarrelToSet)
+void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
 {
 	// could do this->Barrel = BarrelToSet;
 	Barrel = BarrelToSet;
@@ -62,8 +63,6 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	{
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
 		auto TankName = GetOwner()->GetName();
-		UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s"), *TankName, *AimDirection.ToString());
-
 		MoveBarrelTowards(AimDirection);
 	}
 
@@ -72,17 +71,10 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
-	// Move the Barrel.
-		// Get the Turret and Barrel current location
-		// Get the aim direction
-		// Rotate the turret around the centre on a horizontal basis, to point to the location the crosshair is at
-		// do this with a delta time 
-
 	// work out difference between current barrel rotation and AimDirection
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
 	auto AimAsRotator = AimDirection.Rotation();
 	auto DeltaRotator = AimAsRotator - BarrelRotator;
-	UE_LOG(LogTemp, Warning, TEXT("DeltaRotator = %s"), *DeltaRotator.ToString());
-	// Move the barrel the right amount this frame
-	// Given a max elevation speed and teh frame time
+
+	Barrel->Elevate(5); // TODO remove magic number
 }

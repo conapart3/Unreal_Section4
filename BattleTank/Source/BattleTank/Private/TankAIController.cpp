@@ -11,16 +11,13 @@ void ATankAIController::BeginPlay()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("AIController not posessing a tank."));
 	}
-	// Log the AI controlled tank name
-	UE_LOG(LogTemp, Warning, TEXT("AIController begin play... Controlled tank is %s"), *(ControlledTank->GetName()));
-
 	auto PlayerTank = GetPlayerTank();
 	if (!PlayerTank) {
 		UE_LOG(LogTemp, Warning, TEXT("AIController not targetting a player tank."));
 	}
 	// Log the targetted player controlled tank
 	UE_LOG(LogTemp,
-		Warning, TEXT("AIController aiming at player tank: %s"), *(PlayerTank->GetName()));
+		Warning, TEXT("AI tank: %s aiming at player tank: %s"), *(ControlledTank->GetName()), *(PlayerTank->GetName()));
 }
 
 ATank * ATankAIController::GetPlayerTank() const
